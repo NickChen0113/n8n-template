@@ -1,0 +1,29 @@
+volumes:
+  n8n_storage:
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    restart: always
+    ports:
+      - "127.0.0.1:5678:5678" # 根據實際需求設定
+    volumes:
+      - ./n8n_storage:/home/node/.n8n
+  db:
+    container_name: mysql
+    image: mysql:8.0.26 
+    platform: linux/amd64 # Force to use amd64 image on Apple Silicon
+    ports:
+      - "3306:3306"
+    command: [
+        '--default_authentication_plugin=mysql_native_password',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+        '--skip-character-set-client-handshake' # Prevent utf8 setting not work in mysql client
+    ]
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "karavan"
+    restart: always      
