@@ -3,7 +3,9 @@ volumes:
 
 services:
   n8n:
-    image: n8nio/n8n:latest
+#    image: n8nio/n8n:latest  # 與build: .互斥，選擇一個即可
+    build: .
+    container_name: n8n
     restart: always
     ports:
       - "127.0.0.1:5678:5678" # 根據實際需求設定
