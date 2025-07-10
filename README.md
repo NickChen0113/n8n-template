@@ -1,1 +1,1 @@
-n8n template
+n8n template with i18N (Traditional Chinese)
